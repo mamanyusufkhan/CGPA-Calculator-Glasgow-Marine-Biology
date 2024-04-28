@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grading Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+        }
+        h2 {
+            margin-bottom: 20px;
+        }
+        h3 {
+            margin-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group select {
+            width: calc(100% - 10px);
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Grading Form</h2>
+        <form action="/calculate" method="post" id="grading-form">
+            {%csrf_token%}
+            {% for key, value_list in my_dict.items %}
+            <div class="section">
+                <h3>{{ key }}</h3>
+                {% for value in value_list %}
+                <div class="form-group">
+                    <label>{{ value }}</label>
+                    <select name="{{ key }} {{ value }}">
+                        <option value="Unknown">Unknown</option>
+                        {% for grade in grades %}
+                        <option value="{{ grade }}">{{ grade }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            <div class="form-group">
+                <label for="prompt">Select What You Want To Do?</label>
+                <select id="prompt" name="prompt">
+                    <option value="target">Calculate Predicted Grade</option>
+                    <option value="match">Match Total Grade</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="target-group">
+                <label for="prompt_value">Target</label>
+                <select id="prompt_value" name="prompt_value">
+                    {% for value in threshold %}
+                    <option value="{{ value }}">{{ value }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    
+</body>
+</html>

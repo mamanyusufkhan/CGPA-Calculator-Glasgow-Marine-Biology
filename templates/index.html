@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .form-container {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="submit"] {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        
+        <form action="/" method="post" onsubmit="return validateForm()">
+            {% csrf_token %}
+            <h2>Optional Courses</h2>
+            <label for="input1">Optional Course 1</label><br>
+            <select id="input1" name="input1">
+                <option value="">None</option>
+                {% for key in optional_course %}
+                    <option value="{{ key }}">{{ key }}</option>
+                {% endfor %}
+            </select><br><br>
+            
+            <label for="input2">Optional Course 2</label><br>
+            <select id="input2" name="input2">
+                <option value="">None</option>
+                {% for key in optional_course %}
+                    <option value="{{ key }}">{{ key }}</option>
+                {% endfor %}
+            </select><br><br>
+        
+            <label for="input3">Optional Course 3</label><br>
+            <select id="input3" name="input3">
+                <option value="">None</option>
+                {% for key in optional_course %}
+                    <option value="{{ key }}">{{ key }}</option>
+                {% endfor %}
+            </select><br><br>
+        
+            <input type="submit" value="Submit">
+        </form>
+        
+        
+    </div>
+
+    <script>
+
+        function validateForm() {
+            var input1 = document.getElementById('input1').value;
+            var input2 = document.getElementById('input2').value;
+            var input3 = document.getElementById('input3').value;
+            
+            if (input1 === '' || input2 === '' || input3 === '') {
+                alert('Please select an option for all fields.');
+                return false;
+            }
+
+            if (input1 === input2 || input1 === input3 || input2 === input3) {
+                alert('Please select different options for all fields.');
+                return false;
+            }
+
+            return true;
+        }
+
+    </script>
+
+    
+</body>
+</html>
